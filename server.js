@@ -4,6 +4,9 @@ const cors = require("cors");
 const path = require("path");
 const fs = require("fs").promises;
 const dotenv = require("dotenv");
+
+
+
 // Load .env file
 dotenv.config();
 
@@ -28,14 +31,10 @@ app.use('/api', categoryRoutes);
 const productRoutes = require('./routes/productRoutes');
 app.use('/api',productRoutes);
 
+// Serve uploaded images
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message: 'Something went wrong!' });
-});
-
-const PORT = process.env.DB_PORT || 5000;
+const PORT = process.env.DB_PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 }); 
